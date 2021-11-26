@@ -22,6 +22,6 @@ export function stringTruthy(str?: string) {
 	].includes(str.toLowerCase());
 }
 
-export function conformTo<T>() {
-	return <X extends T>(data: X) => data;
+export function conformTo<T, R extends boolean = true>() {
+	return <X extends T>(data: X) => data as R extends true ? Readonly<X> : X;
 }
