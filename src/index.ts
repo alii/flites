@@ -18,7 +18,9 @@ const messages = [
 	'bruh the legroom gets smaller every year',
 	'"nope! ~airline~ has never been late" -nobody',
 	"i did have a whole row then a guy sat next to me but he's chill bc i couldnt open my water bottle but he helped so yeah he is nice",
-];
+] as const;
+
+const entrypoint = process.argv[2] ?? './src/index.ts';
 
 const getChild = () => {
 	const instance = spawn('node', ['dist/index.js'], {
@@ -58,7 +60,7 @@ void readyWorkspace().then(async () => {
 
 	log(random(messages));
 
-	await build();
+	await build(entrypoint);
 
 	let child: ChildProcessWithoutNullStreams | null = getChild();
 
@@ -84,7 +86,7 @@ void readyWorkspace().then(async () => {
 
 		const now = performance.now();
 
-		const result = await build();
+		const result = await build(entrypoint);
 
 		if (!result || result.errors.length) {
 			const message = result?.errors.length
@@ -94,13 +96,12 @@ void readyWorkspace().then(async () => {
 			logger(message);
 		} else {
 			logger(
-				`rebuild src/index.ts took ${Math.trunc(performance.now() - now)}ms\n`,
+				`rebuild ${entrypoint} took ${Math.trunc(performance.now() - now)}ms\n`,
 			);
 		}
 
 		child?.kill();
 		child = null;
-
 		child = getChild();
 	});
 });

@@ -1,12 +1,24 @@
 # flight
 
+Flight is an opinionated hot reloading development server for TypeScript applications. It replaces tools like `ts-node-dev` and `nodemon`. It is designed to be used in a development environment, and is not intended to be used in production.
+
+Under the hood it uses esbuild, a modern build system for TypeScript, to compile your TypeScript files. This means it stays speedy even with larger projects and workspaces.
+
+--
+
+###### Old meme readme is below lol
+
+--
+
+# flight
+
 Flight is a **really** opinionated development build tool/bundler for Node and TypeScript applications. It has no configuration options whatsoever leaving you with the quickest way to get started into developing a large scale TypeScript app.
 
 Under the hood, flight uses the absolutely fantastic [esbuild](https://npmjs.com/package/esbuild). It's a totally brilliant toy and serves many many useful purposes. qna below!
 
 # what it do
 
-it spys on ur files and then when u save src/index.ts (has to be called that btw bc as i said its opinionated if you dont like it dont use it dfisdhjldg) and then when u do the save it compiles the typescript into a single file (under dist/index.js) and does the restart of your app !!
+it spys on ur files and then when u save src/index.ts (by default, u can change just by doing another command line argument) and then when u do the save it compiles the typescript into a single file (under dist/index.js) and does the restart of your app !!
 
 everything will be bundled into a single file, absolutely everything. sooo technically you could use this to replace like rollup or something but please don't do that bc this has zero options as i said. there is actually another reason that there are no options and that is because there is no internet on the flight and i dont want to have to pay like $37.99 for a couple of hours of slow 3g just to install a command line parser from npm and make it nice and stuff so yeah also this readme is a total meme bc im not even sure if anybody will use this but i think open source doesnt have to be all professional im just chatting to you and you are reading what ive written but i guess you cant say anything back to me because its not a conversation this is so lonely oh well i hope you are having a great day go buy yourself a coffee because you deserve it x
 

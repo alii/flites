@@ -11,7 +11,6 @@ const options = conformTo<BuildOptions>()({
 	sourceRoot: srcDir,
 	sourcemap: true,
 	write: true,
-	entryPoints: [entry],
 	platform: 'node',
 	bundle: true,
 	tsconfig,
@@ -19,6 +18,9 @@ const options = conformTo<BuildOptions>()({
 	minify: stringTruthy(process.env.FLIGHT_MINIFY),
 });
 
-export async function build() {
-	return esbuild(options).catch(() => null);
+export async function build(entrypoint: string) {
+	return esbuild({
+		...options,
+		entryPoints: [entrypoint],
+	}).catch(() => null);
 }
