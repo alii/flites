@@ -13,7 +13,8 @@
 		"isolatedModules": true,
 		"noFallthroughCasesInSwitch": true,
 		"allowSyntheticDefaultImports": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"declaration": true
 	},
 	"exclude": ["node_modules", "dist"],
 	"include": ["./**/*.ts", "./**/*.tsx"]

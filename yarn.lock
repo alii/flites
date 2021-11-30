@@ -478,14 +478,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flight@workspace:.":
+"flites@workspace:.":
   version: 0.0.0-use.local
-  resolution: "flight@workspace:."
+  resolution: "flites@workspace:."
   dependencies:
     "@types/node": ^16.11.10
     chokidar: ^3.5.2
     esbuild: ^0.14.0
     typescript: ^4.5.2
+  bin:
+    flites: ./dist/index.js
   languageName: unknown
   linkType: soft
 

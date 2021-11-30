@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {ChildProcessWithoutNullStreams, spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {extname, relative} from 'path';
@@ -72,7 +74,7 @@ void readyWorkspace().then(async () => {
 
 	watcher.on('ready', () => {
 		log(`dist path is ~/${friendlyDistDir}`);
-		log('flight is ready for takeoff!');
+		log('flites is ready for takeoff!');
 
 		finish();
 	});

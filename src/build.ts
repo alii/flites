@@ -15,7 +15,7 @@ const options = conformTo<BuildOptions>()({
 	bundle: true,
 	tsconfig,
 	format: 'cjs',
-	minify: stringTruthy(process.env.FLIGHT_MINIFY),
+	minify: stringTruthy(process.env.FLITES_MINIFY),
 });
 
 export async function build(entrypoint: string) {
