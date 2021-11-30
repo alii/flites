@@ -1,12 +1,17 @@
 {
 	"name": "flites",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "./dist/index.js",
 	"author": "Alistair Smith",
 	"license": "MIT",
 	"packageManager": "yarn@3.1.0",
 	"bin": "./dist/index.js",
 	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"package.json",
+		"LICENSE"
+	],
 	"scripts": {
 		"build": "tsc"
 	},
