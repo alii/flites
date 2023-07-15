@@ -20,6 +20,7 @@ export function loggerGroup(width = 50, char = '=', verticalChar = '|') {
 			const padding = ' '.repeat(paddingLength);
 			console.log(verticalChar, padding + message);
 		},
+
 		finish: () => {
 			console.log(row, '\n');
 		},

@@ -4,12 +4,10 @@ import {ChildProcessWithoutNullStreams, spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {extname, relative} from 'path';
 import {build, knownExtensions} from './build';
-import {cwd, cwdName, readyWorkspace, srcDir} from './init';
+import {cwd, readyWorkspace, srcDir} from './init';
 import {logger, loggerGroup} from './logger';
 import {random} from './util';
-import {homedir} from 'os';
 
-// lmao
 const messages = [
 	'Adding landing gear...',
 	'WHERE ARE THE PASSENGERS???',
@@ -19,7 +17,6 @@ const messages = [
 	"there's another crying baby in the back",
 	'bruh the legroom gets smaller every year',
 	'"nope! ~airline~ has never been late" -nobody',
-	"i did have a whole row then a guy sat next to me but he's chill bc i couldnt open my water bottle but he helped so yeah he is nice",
 ] as const;
 
 const entrypoint = process.argv[2] ?? './src/index.ts';
@@ -33,25 +30,29 @@ const getChild = () => {
 		cwd,
 	});
 
-	const log = (data: Buffer | string) => console.log(data.toString().trim());
+	const write = (
+		mode: 'stdout' | 'stderr',
+	): ((data: Buffer | string) => void) => {
+		return buf => {
+			process[mode].write(buf);
+		};
+	};
 
-	instance.stdout.on('data', log);
-	instance.stdout.on('error', log);
-	instance.stderr.on('data', log);
-	instance.stderr.on('error', log);
+	instance.stdout.on('data', write('stdout'));
+	instance.stdout.on('error', write('stdout'));
+	instance.stderr.on('data', write('stderr'));
+	instance.stderr.on('error', write('stderr'));
 
-	instance.on('exit', (code, signal) => {
-		if (code !== 0) {
-			instance.kill();
-			process.exit(code ?? 1);
+	instance.on('exit', code => {
+		if (code) {
+			logger('App exited with code', code, 'Reloading will restart the app.');
+		} else {
+			logger('App exited. Reloading will restart the app.');
 		}
 
-		console.log('\n');
-		logger(
-			'App exited with code',
-			code ?? 'n/a',
-			'Reloading will restart the app.',
-		);
+		if (code !== 0) {
+			instance.kill();
+		}
 	});
 
 	return instance;
@@ -70,10 +71,10 @@ void readyWorkspace().then(async () => {
 		useFsEvents: true,
 	});
 
-	const friendlyDistDir = relative(homedir(), `${cwdName}/dist`);
+	const friendlyDistDir = relative(process.cwd(), `./dist`);
 
 	watcher.on('ready', () => {
-		log(`dist path is ~/${friendlyDistDir}`);
+		log(`dist path is ./${friendlyDistDir}`);
 		log('flites is ready for takeoff!');
 
 		finish();
@@ -102,7 +103,10 @@ void readyWorkspace().then(async () => {
 			);
 		}
 
-		child?.kill();
+		if (child) {
+			child.kill();
+		}
+
 		child = null;
 		child = getChild();
 	});
