@@ -1,6 +1,6 @@
-import {build as esbuild, BuildOptions} from 'esbuild';
+import {BuildOptions, build as esbuild} from 'esbuild';
 import {join} from 'path';
-import {tsconfig, distDir, srcDir} from './init';
+import {distDir, srcDir, tsconfig} from './init';
 import {conformTo, stringTruthy} from './util';
 
 export const knownExtensions = ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs'];
@@ -14,7 +14,7 @@ const options = conformTo<BuildOptions>()({
 	platform: 'node',
 	bundle: true,
 	tsconfig,
-	format: 'cjs',
+	format: 'esm',
 	minify: stringTruthy(process.env.FLITES_MINIFY),
 });
 
