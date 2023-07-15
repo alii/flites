@@ -27,6 +27,7 @@ const getChild = () => {
 			...process.env,
 			NODE_ENV: process.env.NODE_ENV ?? 'development',
 		},
+
 		cwd,
 	});
 
@@ -44,13 +45,10 @@ const getChild = () => {
 	instance.stderr.on('error', write('stderr'));
 
 	instance.on('exit', code => {
-		if (code) {
-			logger('App exited with code', code, 'Reloading will restart the app.');
-		} else {
+		if (code === 0) {
 			logger('App exited. Reloading will restart the app.');
-		}
-
-		if (code !== 0) {
+		} else if (code !== null) {
+			logger('App exited with code', code, 'Reloading will restart the app.');
 			instance.kill();
 		}
 	});
@@ -82,6 +80,7 @@ void readyWorkspace().then(async () => {
 
 	watcher.on('change', async path => {
 		const ext = extname(path);
+		const relativePath = relative(process.cwd(), path);
 
 		if (!knownExtensions.includes(ext)) {
 			return;
@@ -98,13 +97,15 @@ void readyWorkspace().then(async () => {
 
 			logger(message);
 		} else {
-			logger(
-				`rebuild ${entrypoint} took ${Math.trunc(performance.now() - now)}ms\n`,
-			);
-		}
+			if (child) {
+				child.kill();
+			}
 
-		if (child) {
-			child.kill();
+			logger(
+				relativePath,
+				'edited.',
+				`Rebuild took ${Math.trunc(performance.now() - now)}ms`,
+			);
 		}
 
 		child = null;

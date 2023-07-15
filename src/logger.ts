@@ -1,11 +1,12 @@
 const emoji = '✈️';
 
 export function logger(...args: unknown[]) {
-	console.log(emoji, ...args);
+	console.log(`[${emoji} flites]`, ...args);
 }
 
 export function loggerGroup(width = 50, char = '=', verticalChar = '|') {
 	const row = `${emoji} ${char.repeat(width - 1)}`;
+
 	console.log(row);
 
 	return {
